@@ -259,7 +259,7 @@ public class GameManagement {
 
             List<Athlete> connectedAthletes = athletes.stream().filter(a -> a.getCountry()
                                                 .equals(ioc.getCountryName())).collect(Collectors.toList());
-            if (connectedAthletes.size() == 0) continue;
+
             MedalTableItem item = new MedalTableItem(ioc, connectedAthletes);
             medalTableItemList.add(item);
         }
