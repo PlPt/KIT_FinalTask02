@@ -147,7 +147,7 @@ public class ArgumentParser {
         } else if (type == long.class || type == Long.class) {
             parsedValue = Long.parseLong(paramString);
         } else if (type == boolean.class || type == Boolean.class) {
-            parsedValue = Boolean.valueOf(paramString);
+            parsedValue = (boolean) (Boolean.valueOf(paramString) || Integer.parseInt(paramString) == 1);
         } else if (type == short.class || type == Short.class) {
             parsedValue = Short.parseShort(paramString);
         } else if (type == byte.class || type == Byte.class) {

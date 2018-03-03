@@ -7,11 +7,11 @@ public class ArgumentParserExecutionException extends ArgumentParserException {
         super(message);
     }
 
-    public ArgumentParserExecutionException(String message,Throwable cause) {
-        super(message,cause);
+    public ArgumentParserExecutionException(String message, Throwable cause) {
+        super(message, cause);
     }
 
-    public <T extends  Exception>  T getTypedCause(){
+    public <T extends Exception> T getTypedCause() {
         return (T) this.getCause();
     }
 }
