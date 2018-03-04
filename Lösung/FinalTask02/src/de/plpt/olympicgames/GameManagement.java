@@ -38,6 +38,8 @@ public class GameManagement {
     //region loginAdmin
     public boolean loginAdmin(String userName, String password) {
 
+        if (currentUser != null)
+            throw new AuthorizeException(String.format("The user '%s' is already logged in!", currentUser.getUserName()));
 
         Supplier<Stream<AdminUser>> userStream = () -> adminUsers.stream()
                 .filter((a) -> a.getUserName().equals(userName) && a.getPassword().equals(password));
@@ -136,19 +138,31 @@ public class GameManagement {
     //endregion
 
     //region addSportVenue
-    public boolean addSportVenue(SportVenue venue) {
-        venues.add(venue);
+    public boolean addSportVenue(SportVenue venue) throws GameManagementException {
+
+        if(!iocCodeList.stream().anyMatch(i -> i.getCountryName().equals(venue.getCountryName()))){
+            throw new GameManagementException(String.format("Country '%s' is not an IOC known country",venue.getCountryName()));
+        }
+
+        if (!venues.contains(venue)) {
+            venues.add(venue);
+        } else {
+            throw new GameManagementException("The given venue is already known in system");
+        }
         Collections.sort(venues);
         return true;
     }
     //endregion
 
     //region listSportVenues
-    public String listSportVenues(String country) {
+    public String listSportVenues(String country) throws GameManagementException {
         StringBuilder builder = new StringBuilder();
         int idx = 1;
         List<SportVenue> filteredVenues = venues.stream()
                 .filter(v -> v.getCountryName().equals(country)).collect(Collectors.toList());
+
+        if (filteredVenues.size() == 0) throw new GameManagementException(
+                String.format("There are no venues belongs to country %s", country));
 
         for (SportVenue venue : filteredVenues) {
             builder.append(venue.toString(idx));
@@ -258,7 +272,7 @@ public class GameManagement {
         for (IocCode ioc : iocCodeList) {
 
             List<Athlete> connectedAthletes = athletes.stream().filter(a -> a.getCountry()
-                                                .equals(ioc.getCountryName())).collect(Collectors.toList());
+                    .equals(ioc.getCountryName())).collect(Collectors.toList());
 
             MedalTableItem item = new MedalTableItem(ioc, connectedAthletes);
             medalTableItemList.add(item);

@@ -288,6 +288,7 @@ public class Terminal {
         if (!matchers.isEmpty()) {
             // checks the recently printed lines
             Matcher matcher = matchers.removeFirst();
+            //System.out.println(lastInput + ":  " + outputBuffer);
             if (matcher.matches(outputBuffer)) {
                 assertTrue(true);
 

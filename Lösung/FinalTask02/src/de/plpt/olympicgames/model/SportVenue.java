@@ -1,5 +1,7 @@
 package de.plpt.olympicgames.model;
 
+import java.util.Objects;
+
 public class SportVenue implements Comparable<SportVenue> {
 
     //region varDef
@@ -54,6 +56,24 @@ public class SportVenue implements Comparable<SportVenue> {
     public int compareTo(SportVenue o) {
         return numberSeats - o.getNumberSeats();
     }
+    //endregion
+    //region equals
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SportVenue that = (SportVenue) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
+    }
+
+
     //endregion
 
     //region override toString

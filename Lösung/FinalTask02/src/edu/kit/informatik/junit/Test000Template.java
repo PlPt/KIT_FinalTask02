@@ -1,7 +1,5 @@
 package edu.kit.informatik.junit;
 
-//import static org.hamcrest.Matchers.*;
-
 import org.junit.jupiter.api.*;
 import edu.kit.informatik.junit.Wrapper;
 import edu.kit.informatik.Terminal;
@@ -20,7 +18,7 @@ class Test000Template {
      *
      * Here you have to set which parameters you want to use for your test
      */
-    public static String[] testArgs = {"standard", "18", "2"}; // TODO Set arguments to test
+    public static String[] testArgs = {}; // TODO Set arguments to test
     
     /**
      * Executes before ALL tests

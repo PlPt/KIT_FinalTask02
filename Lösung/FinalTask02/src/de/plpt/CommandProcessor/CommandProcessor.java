@@ -38,11 +38,14 @@ public class CommandProcessor {
                 Exception clientException = apeex.getTypedCause();
                 Terminal.printError(String.format("[ArgumentParserExecutionException][%s] :: %s",
                         clientException.getClass().getName(), clientException.getMessage()));
-                clientException.printStackTrace();
+
             } catch (ArgumentParserException apex) {
 
                 Terminal.printError(String.format("[ArgumentParserException] :: %s", apex.getMessage()));
-            } catch (IntervalViolationException x) {
+            } catch (IllegalArgumentException x) {
+                Terminal.printError(String.format("[EX][%s] :: %s", x.getClass().getName(), x.getMessage()));
+            }
+            catch (IntervalViolationException x) {
                 Terminal.printError(String.format("[EX][%s] :: %s", x.getClass().getName(), x.getMessage()));
             }
         }
@@ -90,7 +93,7 @@ public class CommandProcessor {
     //region addSportsVenue
     @CommandInfo(command = "add-sports-venue (\\d+);([^;\\n]+);([^;\\n]+);([^;\\n]+);(\\d+);(\\d++)")
     public String addSportsVenue(@ParameterInfo(minValue = 1, maxValue = 999) int id, String countryName, String place
-            , String name, int openingYear, int numberSeats) {
+            , String name, int openingYear, int numberSeats) throws GameManagementException {
         gameManagement.checkLogin();
         gameManagement.addSportVenue(new SportVenue(id, countryName, place, name, openingYear, numberSeats));
         return "OK";
@@ -99,7 +102,7 @@ public class CommandProcessor {
 
     //region listSportsVenues
     @CommandInfo(command = "list-sports-venues ([^;\\n]+)")
-    public String listSportsVenues(String country) {
+    public String listSportsVenues(String country) throws GameManagementException {
         gameManagement.checkLogin();
         return gameManagement.listSportVenues(country);
     }
