@@ -30,6 +30,14 @@ public class Athlete implements Comparable<Athlete> {
     }
     //endregion
 
+    //region getCompetition
+
+    public List<Competition> getCompetitions() {
+        return competitions;
+    }
+
+    //endregion
+
     //region getMedalGoldCount
     public long getMedalGoldCount() {
         return competitions.stream().filter(c -> c.getHasGold()).count();

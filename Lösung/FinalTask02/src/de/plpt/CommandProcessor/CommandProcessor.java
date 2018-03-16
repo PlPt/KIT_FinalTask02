@@ -93,7 +93,7 @@ public class CommandProcessor {
     //region addSportsVenue
     @CommandInfo(command = "add-sports-venue (\\d+);([^;\\n]+);([^;\\n]+);([^;\\n]+);(\\d+);(\\d++)")
     public String addSportsVenue(@ParameterInfo(minValue = 1, maxValue = 999) int id, String countryName, String place
-            , String name, int openingYear, int numberSeats) throws GameManagementException {
+            , String name, @ParameterInfo(minValue = 0,maxValue = 2999) int openingYear, int numberSeats) throws GameManagementException {
         gameManagement.checkLogin();
         gameManagement.addSportVenue(new SportVenue(id, countryName, place, name, openingYear, numberSeats));
         return "OK";
@@ -125,12 +125,12 @@ public class CommandProcessor {
     public String listOlympicSports() {
         gameManagement.checkLogin();
         return gameManagement.listOlympicSports();
-    }
+    }//
     //endregion
 
     //region addIocCode
-    @CommandInfo(command = "add-ioc-code (\\d{3});([^;\\n]{3});([^;\\n]+);(\\d{4})")
-    public String addIocCode(int iocId, String iocCode, String country, int year) {
+    @CommandInfo(command = "add-ioc-code (\\d{3});([a-z]{3});([^;\\n]+);(\\d{4})")
+    public String addIocCode(@ParameterInfo(minValue = 1, maxValue = 999)int iocId, String iocCode, String country, int year) {
         gameManagement.checkLogin();
         gameManagement.addIocCode(new IocCode(iocId, iocCode, country, year));
         return "OK";
@@ -158,15 +158,15 @@ public class CommandProcessor {
     //endregion
 
     //region summaryAthletes
-    @CommandInfo(command = "summary-athletes ([^;\\n]+)")
-    public String summaryAthletes(String discipline) throws GameManagementException {
+    @CommandInfo(command = "summary-athletes ([^;\\n]+);([^;\\n]+)")
+    public String summaryAthletes(String kindOfSport,String discipline) throws GameManagementException {
         gameManagement.checkLogin();
-        return gameManagement.summaryAthlete(discipline);
+        return gameManagement.summaryAthlete(kindOfSport,discipline);
     }
     //endregion
 
     //region addCompetition
-    @CommandInfo(command = "add-competition (\\d{4});(\\d{4});([^;\\n]+);([^;\\n]+);(\\d{1});(\\d{1});(\\d{1})")
+    @CommandInfo(command = "add-competition (\\d{4});(\\d{4});([^;\\n]+);([^;\\n]+);([^;\\n]+);(\\d{1});(\\d{1});(\\d{1})")
     public String addCompetition(@ParameterInfo(minValue = 1, maxValue = 9999) int id,
                                  @ParameterInfo(minValue = 1926, maxValue = 2018) int year, String country,
                                  String kindOfSport, String discipline, boolean gold, boolean solver, boolean bronze)

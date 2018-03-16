@@ -1,5 +1,7 @@
 package de.plpt.olympicgames.model;
 
+import java.util.Objects;
+
 public class Competition {
 
     //region varDef
@@ -53,7 +55,26 @@ public class Competition {
         return year;
     }
 
+    public boolean hasMedal(){
+        return hasBronze || hasSilver || hasGold;
+    }
+
     //endregion
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Competition that = (Competition) o;
+        return year == that.year &&
+                Objects.equals(kindOfSport, that.kindOfSport) &&
+                Objects.equals(discipline, that.discipline);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(year, kindOfSport, discipline);
+    }
 }

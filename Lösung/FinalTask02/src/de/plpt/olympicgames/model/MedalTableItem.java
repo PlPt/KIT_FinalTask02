@@ -23,15 +23,15 @@ public class MedalTableItem implements Comparable<MedalTableItem> {
     public int compareTo(MedalTableItem o) {
 
         if (getNumberGoldMedals() - o.getNumberGoldMedals() != 0) {
-            return Long.compare(getNumberGoldMedals(), o.getNumberGoldMedals());
+            return Long.compare(o.getNumberGoldMedals(), getNumberGoldMedals());
         }
 
         if (getNumberSilverMedals() - o.getNumberSilverMedals() != 0) {
-            return Long.compare(getNumberSilverMedals(), o.getNumberSilverMedals());
+            return Long.compare(o.getNumberSilverMedals(), getNumberSilverMedals());
         }
 
         if (getNumberBronzeMedals() - o.getNumberBronzeMedals() != 0) {
-            return Long.compare(getNumberBronzeMedals(), o.getNumberBronzeMedals());
+            return Long.compare(o.getNumberBronzeMedals(), getNumberBronzeMedals());
         }
 
         return iocCode.getIocId() - o.iocCode.getIocId();

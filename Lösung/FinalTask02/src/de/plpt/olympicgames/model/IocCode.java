@@ -60,8 +60,13 @@ public class IocCode implements Comparable<IocCode> {
     //region compareTo
     @Override
     public int compareTo(IocCode o) {
-        return year - o.getYear();
+        int yearDiff = year - o.getYear();
+
+        if(yearDiff != 0 ) return yearDiff;
+
+        return iocId - o.getIocId();
     }
+
     //endregion
 
     //region override toString

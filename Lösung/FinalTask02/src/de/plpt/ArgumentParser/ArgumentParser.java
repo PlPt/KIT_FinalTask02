@@ -140,14 +140,19 @@ public class ArgumentParser {
      * @param type        Type declaration to transform String
      * @return Object holding strongly typed parsed value
      */
-    private Object parseValue(String paramString, Class<?> type) {
+    private Object parseValue(String paramString, Class<?> type) throws ArgumentParserException {
         Object parsedValue = null;
         if (type == int.class || type == Integer.class) {
             parsedValue = Integer.parseInt(paramString);
         } else if (type == long.class || type == Long.class) {
             parsedValue = Long.parseLong(paramString);
         } else if (type == boolean.class || type == Boolean.class) {
-            parsedValue = (boolean) (Boolean.valueOf(paramString) || Integer.parseInt(paramString) == 1);
+
+            int value = Integer.parseInt(paramString);
+            if( value!= 1 && value !=0){
+              throw new ArgumentParserException(String.format("Integer '%s' cannot be converted to boolean",value));
+            }
+            parsedValue = (boolean) (Boolean.valueOf(paramString) || value == 1);
         } else if (type == short.class || type == Short.class) {
             parsedValue = Short.parseShort(paramString);
         } else if (type == byte.class || type == Byte.class) {

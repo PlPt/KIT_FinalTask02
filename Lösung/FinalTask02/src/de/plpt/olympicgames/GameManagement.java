@@ -26,6 +26,12 @@ public class GameManagement {
 
     //region addAdmin
     public void addAdmin(AdminUser adminUser) throws GameManagementException {
+
+        if(currentUser!=null){
+            throw new AuthorizeException(String.format("User '%s' is logged in. Please log out first."));
+
+        }
+
         if (!adminUsers.contains(adminUser)) {
             adminUsers.add(adminUser);
         } else {
@@ -73,7 +79,10 @@ public class GameManagement {
 
     //region addIocCode
     public boolean addIocCode(IocCode code) {
-        if (!iocCodeList.contains(code)) {
+
+      boolean iocExists =  iocCodeList.stream().anyMatch(ioc -> code.getIocId() == ioc.getIocId() || code.getIocCode().equals(ioc.getIocCode()) || code.getCountryName().equals(ioc.getCountryName()));
+
+        if (!iocCodeList.contains(code) && !iocExists ) {
             iocCodeList.add(code);
             Collections.sort(iocCodeList);
         } else {
@@ -92,7 +101,8 @@ public class GameManagement {
             builder.append("\n");
         }
 
-        return builder.toString().trim();
+        String result = builder.toString().trim();
+        return result.length()>0 ? result : null;
     }
     //endregion
 
@@ -132,8 +142,8 @@ public class GameManagement {
             }
 
         }
-
-        return builder.toString().trim();
+        String result = builder.toString().trim();
+        return result.length()>0 ? result : null;
     }
     //endregion
 
@@ -182,8 +192,20 @@ public class GameManagement {
                     , athlete.getCountry()));
         }
 
+        if(!olympicSports.containsKey(kindOfSport)){
+            throw new GameManagementException(String.format("Sport type '%s' is not exists"
+                    , kindOfSport));
+        }
+
+        if(!olympicSports.get(kindOfSport).contains(discipline)){
+            throw new GameManagementException(String.format("Sport type '%s' under '%s' does not exists"
+                    , kindOfSport,discipline));
+        }
+
+        boolean exists = athletes.stream().anyMatch(a -> a.getId() == athlete.getId());
+
         Athlete currentAthlete = null;
-        if (!athletes.contains(athlete)) {
+        if (!athletes.contains(athlete) && !exists) {
             athletes.add(athlete);
             Collections.sort(athletes);
             currentAthlete = athlete;
@@ -198,22 +220,27 @@ public class GameManagement {
     //endregion
 
     //region summaryAthlete
-    public String summaryAthlete(String discipline) throws GameManagementException {
+    public String summaryAthlete(String kindOfSport,String discipline) throws GameManagementException {
         StringBuilder builder = new StringBuilder();
 
-        if (!olympicSports.values().stream().anyMatch(l -> l.contains(discipline))) {
+        if(!olympicSports.containsKey(kindOfSport)){
+            throw new GameManagementException(String.format("Discipline '%s' is not registered in system", kindOfSport));
+        }
+
+        if (!olympicSports.get(kindOfSport).contains(discipline)) {
             throw new GameManagementException(String.format("Discipline '%s' is not registered in system", discipline));
         }
 
-        List<Athlete> filteredList = athletes.stream().filter(a -> a.getDisciplines().contains(discipline))
-                .collect(Collectors.toList());
+        List<Athlete> filteredList = athletes.stream().filter(a -> a.getDisciplines().contains(discipline) && a.getSportTypes().contains(kindOfSport))
+                .sorted((Athlete o1, Athlete o2)->{ int diff = Long.compare(o2.getCompetitions().stream().filter(c -> c.getKindOfSport().equals(kindOfSport) && c.getDiscipline().equals(discipline) && c.hasMedal()).count(),o1.getCompetitions().stream().filter(c -> c.getKindOfSport().equals(kindOfSport) && c.getDiscipline().equals(discipline) && c.hasMedal()).count()); if(diff!=0)return diff; else return Integer.compare(o1.getId(),o2.getId());}).collect(Collectors.toList());
 
         for (Athlete a : filteredList) {
-            builder.append(a.toString());
+            builder.append(   String.format("%04d %s %s %s", a.getId(), a.getName(), a.getSurname(), a.getCompetitions().stream().filter(c -> c.hasMedal() && c.getKindOfSport().equals(kindOfSport) && c.getDiscipline().equals(discipline)).count()));
             builder.append("\n");
         }
+        String result = builder.toString().trim();
 
-        return builder.toString().trim();
+        return result.length()>0  ? result : null;
     }
     //endregion
 
@@ -255,7 +282,20 @@ public class GameManagement {
         }
 
 
-        athlete.addCompetition(new Competition(year, gold, silver, bronze, kindOfSport, discipline));
+        if((!((bronze^silver)^gold) || bronze&&silver&&gold ) && !(!bronze&&!silver&&!gold)){
+            throw new GameManagementException(
+                    String.format("Athlete with id '%s' caon only win one medal per Competition",id));
+        }
+
+        Competition comp = new Competition(year, gold, silver, bronze, kindOfSport, discipline);
+
+        if(athlete.getCompetitions().contains(comp)){
+            throw new GameManagementException(
+                    String.format("Athlete with id '%s' has already a competition for year '%s'  in discipline '%s'", id,
+                            year,kindOfSport + " " +  discipline));
+        }
+
+        athlete.addCompetition(comp);
 
 
         return true;
@@ -265,7 +305,7 @@ public class GameManagement {
     //region olympicMedalTable
     public String olympicMedalTable() throws GameManagementException {
 
-        if (athletes.size() == 0) throw new GameManagementException("No athletes added to system");
+
 
         List<MedalTableItem> medalTableItemList = new ArrayList<>();
 
@@ -287,8 +327,8 @@ public class GameManagement {
             place++;
             builder.append("\n");
         }
-
-        return builder.toString().trim();
+        String result = builder.toString().trim();
+        return result.length()>0 ? result : null;
     }
     //endregion
 
@@ -299,8 +339,7 @@ public class GameManagement {
         iocCodeList.clear();
         this.olympicSports.clear();
         this.venues.clear();
-        adminUsers.clear();
-        logout();
+
     }
     //endregion
     //endregions
