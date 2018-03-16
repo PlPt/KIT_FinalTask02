@@ -1,0 +1,12 @@
+add-admin vorname;nachname;tester;123123123
+login-admin tester;123123123
+add-olympic-sport eishockey;eishockey
+add-olympic-sport biathlon;biathlon
+add-olympic-sport bobsport;bob
+add-olympic-sport bobsport;skeleton
+add-olympic-sport curling;curling
+add-olympic-sport eislauf;eiskunstlauf
+add-olympic-sport eislauf;eisschnelllauf
+add-olympic-sport eislauf;eisschnelllauf
+list-olympic-sports
+quit

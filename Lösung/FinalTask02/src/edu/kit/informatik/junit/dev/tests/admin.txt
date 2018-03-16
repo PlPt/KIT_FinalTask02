@@ -1,0 +1,14 @@
+
+banana
+add-admin sebastian;stüker;god_of_gbi;modus_ponens
+add-admin sebastian;stüker;god;modus_ponens
+add-admin sebastian;stüker;gbi_god;modus_ponens_is_all_you_need
+add-admin sebastian;stüker;gbi_god;modus
+add-admin sebastian;stüker;gbi_god;modus_ponens
+add-admin sebastian;stüker;gbi_god;modus_ponens
+login-admin
+login-admin gbi_godd;modus_ponens
+login-admin gbi_god;modus_ponen
+login-admin gbi_god;modus_ponens
+login-admin gbi_god;modus_ponens
+quit

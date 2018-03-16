@@ -1,0 +1,31 @@
+add-olympic-sport eishockey;eishockey
+list-olympic-sports
+add-ioc-code 111;arg;argentinien;1920
+login-admin tester;123123123
+logout-admin
+add-admin vorname;nachname;kur;123123123
+add-admin vorname;nachname;tester;zukurz
+add-admin vorname;nachname;tester;123123123
+login-admin kur;123123123
+login-admin tester;zukurz
+login-admin tester;123123120
+login-admin teste;123123123
+login-admin tester;123123123
+login-admin tester;123123123
+add-olympic-sport eishockey;eishockey
+list-olympic-sports
+add-ioc-code 111;arg;argentinien;1920
+list-ioc-codes
+logout-admin
+logout-admin
+add-athlete 0001;max;mustermann;argentinien;eishockey;eishockey
+login-admin tester;123123123
+add-athlete 0001;max;mustermann;argentinien;eishockey;eishockey
+reset
+logout
+logout-admin
+login-admin tester;123123123
+add-admin vorname;nachname;tester2;123123123
+login-admin tester2;123123123
+list-ioc-codes
+quit

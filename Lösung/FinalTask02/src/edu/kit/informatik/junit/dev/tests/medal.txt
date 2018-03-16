@@ -1,0 +1,10 @@
+add-admin vorname;nachname;tester;123123123
+login-admin tester;123123123
+add-ioc-code 001;can;canada;2000
+add-ioc-code 002;den;denmark;2000
+add-olympic-sport fencing;fencing
+add-athlete 0001;alex;edwin;canada;fencing;fencing
+add-athlete 0002;benjamin;maria;denmark;fencing;fencing
+add-competition 0001;2002;canada;fencing;fencing;0;0;0
+olympic-medal-table
+quit

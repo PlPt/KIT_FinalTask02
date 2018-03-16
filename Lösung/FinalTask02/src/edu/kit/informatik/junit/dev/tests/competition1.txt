@@ -1,0 +1,57 @@
+add-admin vorname;nachname;tester;123123123
+login-admin tester;123123123
+add-ioc-code 818;qdn;bkwrhritty;1900
+add-ioc-code 683;zbs;boqrrcngxx;1900
+add-ioc-code 827;mdw;iunmgurgdb;1900
+add-ioc-code 172;nrr;bfglsocdjv;1900
+add-ioc-code 537;ewo;cyvlldijdc;1900
+add-ioc-code 742;gzr;inmbuucrky;1900
+add-ioc-code 719;icf;qkibhfreia;1900
+add-ioc-code 734;mij;xkgezgcywo;1900
+add-ioc-code 677;bsr;lrcobcmmhj;1900
+add-ioc-code 319;qie;hugfleibgj;1900
+add-olympic-sport hslbxb;mhzbtx
+add-athlete 1605;cbvdmlcjyn;kjjhvocbyg;cyvlldijdc;hslbxb;mhzbtx
+add-athlete 3115;eoyixyibar;rvazibzxiz;bkwrhritty;hslbxb;mhzbtx
+add-athlete 2962;qqjhnmukdj;mndkfubigl;qkibhfreia;hslbxb;mhzbtx
+add-athlete 8084;bdvbkcs tn;cmanqbml h;bfglsocdjv;hslbxb;mhzbtx
+add-athlete 1453; lyuiqg qm;ydfo lkvmm;cyvlldijdc;hslbxb;mhzbtx
+add-athlete 9246;itkbmyuauz;qbw tkufgl;lrcobcmmhj;hslbxb;mhzbtx
+add-athlete 0072;sbedhfucxn;bgblglbjrr;bfglsocdjv;hslbxb;mhzbtx
+add-athlete 3852;zelujrxjjz;ujeeusr ck;iunmgurgdb;hslbxb;mhzbtx
+add-athlete 0214;  lcxcfwe ;ckdjrwsewi;bfglsocdjv;hslbxb;mhzbtx
+add-athlete 7632;iaxhcqbnof;kyihosajcl;hugfleibgj;hslbxb;mhzbtx
+add-athlete 6664;kzwzxwustu;tdltdavxag;cyvlldijdc;hslbxb;mhzbtx
+add-athlete 2484;rgrsx nc w;rsebwqsnyf;inmbuucrky;hslbxb;mhzbtx
+add-athlete 1559;lrdqgmokqa;oziakgfikc;lrcobcmmhj;hslbxb;mhzbtx
+add-athlete 6789;xifmeaizrb;ehwebmkhoi;inmbuucrky;hslbxb;mhzbtx
+add-athlete 4401;mh uwdbbbe;ejoihevizd;iunmgurgdb;hslbxb;mhzbtx
+add-athlete 2605;j  znotafy;cbsvwzzmsd;inmbuucrky;hslbxb;mhzbtx
+add-athlete 2715;vmbcww rzb;cfuaq oaqk;lrcobcmmhj;hslbxb;mhzbtx
+add-athlete 4913;mkrzokbkcw;ybnzmkcvdb;qkibhfreia;hslbxb;mhzbtx
+add-athlete 9142;objkfzvmjn;jn fbrxqtf;inmbuucrky;hslbxb;mhzbtx
+add-athlete 3376;dytvdjjuvw;ljoijbfhjb;bfglsocdjv;hslbxb;mhzbtx
+add-competition 8084;2010;bfglsocdjv;hslbxb;mhzbtx;0;1;0
+add-competition 2715;1994;lrcobcmmhj;hslbxb;mhzbtx;0;1;0
+add-competition 3376;1998;bfglsocdjv;hslbxb;mhzbtx;0;0;1
+add-competition 4913;2006;qkibhfreia;hslbxb;mhzbtx;0;1;0
+add-competition 0072;1994;bfglsocdjv;hslbxb;mhzbtx;0;0;1
+add-competition 3115;1950;bkwrhritty;hslbxb;mhzbtx;1;0;0
+add-competition 1605;1986;cyvlldijdc;hslbxb;mhzbtx;0;1;0
+add-competition 1559;1950;lrcobcmmhj;hslbxb;mhzbtx;0;0;1
+add-competition 8084;1990;bfglsocdjv;hslbxb;mhzbtx;0;1;0
+add-competition 2484;1982;inmbuucrky;hslbxb;mhzbtx;0;0;1
+add-competition 4401;1942;iunmgurgdb;hslbxb;mhzbtx;0;1;0
+add-competition 2484;1946;inmbuucrky;hslbxb;mhzbtx;0;1;0
+add-competition 2962;1974;qkibhfreia;hslbxb;mhzbtx;0;0;1
+add-competition 2484;1946;inmbuucrky;hslbxb;mhzbtx;0;1;0
+add-competition 4913;1978;qkibhfreia;hslbxb;mhzbtx;0;0;1
+add-competition 3115;1938;bkwrhritty;hslbxb;mhzbtx;0;1;0
+add-competition 9142;1954;inmbuucrky;hslbxb;mhzbtx;0;1;0
+add-competition 9246;1950;lrcobcmmhj;hslbxb;mhzbtx;0;1;0
+add-competition 1453;2002;cyvlldijdc;hslbxb;mhzbtx;0;1;0
+add-competition 0214;1998;bfglsocdjv;hslbxb;mhzbtx;0;1;0
+list-olympic-sports
+summary-athletes hslbxb;mhzbtx
+olympic-medal-table
+quit

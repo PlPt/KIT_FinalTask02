@@ -1,0 +1,26 @@
+OK
+OK
+OK
+OK
+OK
+OK
+OK
+OK
+OK
+OK
+OK
+Error
+OK
+OK
+OK
+Error
+OK
+Error
+Error
+Error
+Error
+Error
+Error
+(1 020 barcelona 1000)
+(2 001 madrid 100000)
+(3 010 madrid 100000)

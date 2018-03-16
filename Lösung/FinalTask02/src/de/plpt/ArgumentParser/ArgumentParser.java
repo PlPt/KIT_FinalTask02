@@ -3,6 +3,7 @@ package de.plpt.ArgumentParser;
 //region Imports
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -44,7 +45,8 @@ public class ArgumentParser {
     /**
      * Parses a given command and looks for a matching regex definition in executableObject.
      * When a regex method definition matches command string, the method is executed with regex group parameters
-     * which were parsed to strongly typed values if possible
+     * which were parsed to strongly typed values if possible.
+     * Parameters of defined Methods can only be primitive values or primitive array in Object wrapper array type
      *
      * @param command InputCommand from Terminal
      * @param <T>     Return type of matching Method defined in executable Object.
@@ -80,42 +82,26 @@ public class ArgumentParser {
             throw new ArgumentParserException(
                     String.format("Command '%s' does not match pattern '%s'", command, annoCommand));
 
-        Object[] z = new Object[meth.getParameterCount()];
-
+        Object[] values = new Object[meth.getParameterCount()];
+        int indexOffset = 0;
         for (int i = 0; i < meth.getParameterCount(); i++) {
 
             Class<?> type = meth.getParameterTypes()[i];
             Annotation[] paramAnno = meth.getParameterAnnotations()[i];
 
-
-            Object parsedValue;
-            String paramString = matcher.group(i + 1);
-            try {
-                parsedValue = parseValue(paramString, type);
-            } catch (NumberFormatException nfe) {
-                NumberFormatException nfex = new NumberFormatException(
-                        String.format("Parameter[%s] with value '%s' can't be parsed to specified type %s"
-                                , i, paramString, type.getName()));
-                nfex.initCause(nfe);
-                throw nfex;
+            if (!type.isArray()) {
+                values[i] = processNormalParameter(matcher, i + indexOffset, type, paramAnno);
+            } else if ((paramAnno.length > 0)) {
+                Object[] array = processArrayParameter(matcher, i + indexOffset, type, paramAnno[0]);
+                values[i] = array;
+                indexOffset += array.length - 1;
+            } else {
+                throw new ArgumentParserException("Given type is an array but no array lenght is defined!");
             }
-
-
-            if (paramAnno.length > 0) {
-                ParameterInfo parameterInfo = (ParameterInfo) paramAnno[0];
-                if (parsedValue instanceof Number && ((int) parsedValue > parameterInfo.maxValue()
-                        || (int) parsedValue < parameterInfo.minValue())) {
-                    throw new IntervalViolationException(
-                            String.format("Parameter[%s]'s value '%s' is not Element of interval [%s,%s]"
-                                    , i, parsedValue, parameterInfo.minValue(), parameterInfo.maxValue()));
-                }
-            }
-
-            z[i] = parsedValue;
         }
 
         try {
-            return (T) (meth.invoke(executableObject, z));
+            return (T) (meth.invoke(executableObject, values));
         } catch (IllegalAccessException e) {
             throw new ArgumentParserException("Illegal Access on executable object: " + e.getMessage(), e);
         } catch (InvocationTargetException e) {
@@ -128,6 +114,66 @@ public class ArgumentParser {
         }
 
 
+    }
+
+    private Object[] processArrayParameter(Matcher matcher, int i, Class<?> type, Annotation annotation)
+            throws ArgumentParserException, IntervalViolationException {
+        ParameterInfo parameterInfo = (ParameterInfo) annotation;
+        Class<?> arrayType = type.getComponentType();
+        if (arrayType.isPrimitive()) {
+            throw new ArgumentParserException(
+                    String.format("Array type '%s' is primitive. Please use object wrapper class instead."
+                            , arrayType.getName()));
+        }
+        Object[] array = (Object[]) Array.newInstance(arrayType, parameterInfo.arrayLenght());
+
+        for (int j = 0; j < array.length; j++) {
+            String paramString = matcher.group(i + j + 1);
+            try {
+                Object parsedValue = parseValue(paramString, arrayType);
+                if (parsedValue instanceof Number && ((int) parsedValue > parameterInfo.maxValue()
+                        || (int) parsedValue < parameterInfo.minValue())) {
+                    throw new IntervalViolationException(
+                            String.format("Parameter[%s]'s value '%s' is not Element of interval [%s,%s]"
+                                    , i, parsedValue, parameterInfo.minValue(), parameterInfo.maxValue()));
+                }
+                array[j] = parsedValue;
+            } catch (NumberFormatException nfe) {
+                NumberFormatException nfex = new NumberFormatException(
+                        String.format("Parameter[%s] with value '%s' can't be parsed to specified type %s"
+                                , i, paramString, type.getName()));
+                nfex.initCause(nfe);
+                throw nfex;
+            }
+        }
+        return array;
+    }
+
+    private Object processNormalParameter(Matcher matcher, int index, Class<?> type, Annotation[] paramAnno)
+            throws ArgumentParserException, IntervalViolationException {
+        Object parsedValue;
+        String paramString = matcher.group(index + 1);
+        try {
+            parsedValue = parseValue(paramString, type);
+        } catch (NumberFormatException nfe) {
+            NumberFormatException nfex = new NumberFormatException(
+                    String.format("Parameter[%s] with value '%s' can't be parsed to specified type %s"
+                            , index, paramString, type.getName()));
+            nfex.initCause(nfe);
+            throw nfex;
+        }
+
+
+        if (paramAnno.length > 0) {
+            ParameterInfo parameterInfo = (ParameterInfo) paramAnno[0];
+            if (parsedValue instanceof Number && ((int) parsedValue > parameterInfo.maxValue()
+                    || (int) parsedValue < parameterInfo.minValue())) {
+                throw new IntervalViolationException(
+                        String.format("Parameter[%s]'s value '%s' is not Element of interval [%s,%s]"
+                                , index, parsedValue, parameterInfo.minValue(), parameterInfo.maxValue()));
+            }
+        }
+        return parsedValue;
     }
     //endregion
 
@@ -149,8 +195,8 @@ public class ArgumentParser {
         } else if (type == boolean.class || type == Boolean.class) {
 
             int value = Integer.parseInt(paramString);
-            if( value!= 1 && value !=0){
-              throw new ArgumentParserException(String.format("Integer '%s' cannot be converted to boolean",value));
+            if (value != 1 && value != 0) {
+                throw new ArgumentParserException(String.format("Integer '%s' cannot be converted to boolean", value));
             }
             parsedValue = (boolean) (Boolean.valueOf(paramString) || value == 1);
         } else if (type == short.class || type == Short.class) {
