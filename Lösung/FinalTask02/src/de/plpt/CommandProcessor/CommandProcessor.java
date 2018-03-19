@@ -135,9 +135,9 @@ public class CommandProcessor {
      * @return OK if add to system was successful
      * @throws GameManagementException is throw when Country don't exists or venue is already in system
      */
-    @CommandInfo(command = "add-sports-venue (\\d{3});([^;\\n]+);([^;\\n]+);([^;\\n]+);(\\d+);(\\d++)")
+    @CommandInfo(command = "add-sports-venue (\\d{3});([^;\\n]+);([^;\\n]+);([^;\\n]+);(\\d{4});(\\d+)")
     public String addSportsVenue(@ParameterInfo(minValue = 1, maxValue = 999) int id, String countryName, String place
-            , String name, @ParameterInfo(minValue = 0, maxValue = 2999) int openingYear, int numberSeats)
+            , String name, @ParameterInfo(minValue = 0, maxValue = 9999) int openingYear, int numberSeats)
             throws GameManagementException {
         gameManagement.checkLogin();
         gameManagement.addSportVenue(new SportVenue(id, countryName, place, name, openingYear, numberSeats));
@@ -210,7 +210,7 @@ public class CommandProcessor {
     @CommandInfo(command = "add-ioc-code (\\d{3});([a-z]{3});([^;\\n]+);(\\d{4})")
     public String addIocCode(
             @ParameterInfo(minValue = 1, maxValue = 999) int iocId, String iocCode, String country
-            , @ParameterInfo(minValue = 0, maxValue = 2999) int year) {
+            , @ParameterInfo(minValue = 0, maxValue = 9999) int year) {
         gameManagement.checkLogin();
         gameManagement.addIocCode(new IocMember(iocId, iocCode, country, year));
         return "OK";

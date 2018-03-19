@@ -120,7 +120,7 @@ public class Test014CompleteIndipendentTest {
          expectError("add-ioc-code 1;ger;germany;1995");
          expectError("add-ioc-code 01;ger;germany;1995");
          expectError("add-ioc-code 001;ger1;germany;1995");
-         expectError("add-ioc-code 001;ger;germany;9995");
+         expectError("add-ioc-code 001;ger;germany;19995");
          expectOK("add-ioc-code 001;ger;germany;1995");
          expectError("add-ioc-code 001;ger;germany;1995");
          expectOK("add-ioc-code 002;fra;france;1989");
@@ -128,7 +128,7 @@ public class Test014CompleteIndipendentTest {
          expectError("add-ioc-code 001;chi;China;1956");
          expectOK("add-ioc-code 003;chi;China;1956");
          expectOK("add-ioc-code 004;aus;Austria;1967");
-         expectError("add-ioc-code 005;pol;Polen;9967");
+         expectError("add-ioc-code 005;pol;Polen;19967");
          expectOK("add-ioc-code 005;pol;Polen;1969");
          expectOK("add-ioc-code 006;swz;Schweiz;1977");
 
@@ -170,7 +170,7 @@ public class Test014CompleteIndipendentTest {
 
          expectError("add-sports-venue 1;germany;Karlsruhe;Stadion;1949;255");
          expectError("add-sports-venue 01;germany;Karlsruhe;Stadion;1949;255");
-         expectError("add-sports-venue 001;germany;Karlsruhe;Stadion;9949;255");
+         expectError("add-sports-venue 001;germany;Karlsruhe;Stadion;19949;255");
          expectError("add-sports-venue 001;Holland;Amdsterdam;Stadion;1949;255");
 
 
