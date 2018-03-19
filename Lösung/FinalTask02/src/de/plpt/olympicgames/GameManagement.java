@@ -35,14 +35,15 @@ public class GameManagement {
     public void addAdmin(AdminUser adminUser) throws GameManagementException {
 
         if (currentUser != null) {
-            throw new AuthorizeException(String.format("User '%s' is logged in. Please log out first."));
+            throw new AuthorizeException(String.format("User '%s' is logged in. Please log out first."
+                    , adminUser.getUserName()));
 
         }
 
         if (!adminUsers.contains(adminUser)) {
             adminUsers.add(adminUser);
         } else {
-            throw new GameManagementException(String.format("User with UserName %s already exists"
+            throw new GameManagementException(String.format("User with UserName '%s' already exists"
                     , adminUser.getUserName()));
         }
     }
@@ -325,7 +326,8 @@ public class GameManagement {
         }
 
         List<Athlete> filteredList = athletes.stream()
-                .filter(a -> a.getDisciplines().contains(discipline) && a.getSportTypes().contains(kindOfSport))
+                .filter(a -> a.getDisciplines(kindOfSport).contains(discipline)
+                        && a.getSportTypes().contains(kindOfSport))
                 .sorted((Athlete o1, Athlete o2) -> {
                     int diff = Long.compare(o2.getCompetitions().stream()
                                     .filter(c -> c.getKindOfSport().equals(kindOfSport)
@@ -376,7 +378,7 @@ public class GameManagement {
                     String.format("Type of sport '%s' is not registered in system", kindOfSport));
         }
 
-        if (!olympicSports.values().stream().anyMatch(l -> l.contains(discipline))) {
+        if (!olympicSports.get(kindOfSport).contains(discipline)) {
             throw new GameManagementException(String.format("Discipline '%s' is not registered in system", discipline));
         }
 
@@ -398,10 +400,10 @@ public class GameManagement {
                     , id, kindOfSport, String.join(";", athlete.getSportTypes())));
         }
 
-        if (!athlete.getDisciplines().contains(discipline)) {
+        if (!athlete.getDisciplines(kindOfSport).contains(discipline)) {
             throw new GameManagementException(
                     String.format("Athlete with id '%s' does not interact in discipline '%s' but in  '%s'", id
-                            , discipline, String.join(",", athlete.getDisciplines())));
+                            , discipline, String.join(",", athlete.getDisciplines(kindOfSport))));
         }
 
 

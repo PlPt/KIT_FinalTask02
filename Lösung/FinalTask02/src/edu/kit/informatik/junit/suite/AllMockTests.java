@@ -22,6 +22,7 @@ import org.junit.runners.Suite;
     MedalTableTest.class,
     ResetTest.class,
     SummaryAthletesTest.class
+
 })
 public class AllMockTests {
 

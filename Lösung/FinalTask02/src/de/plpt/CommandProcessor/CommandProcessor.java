@@ -135,7 +135,7 @@ public class CommandProcessor {
      * @return OK if add to system was successful
      * @throws GameManagementException is throw when Country don't exists or venue is already in system
      */
-    @CommandInfo(command = "add-sports-venue (\\d+);([^;\\n]+);([^;\\n]+);([^;\\n]+);(\\d+);(\\d++)")
+    @CommandInfo(command = "add-sports-venue (\\d{3});([^;\\n]+);([^;\\n]+);([^;\\n]+);(\\d+);(\\d++)")
     public String addSportsVenue(@ParameterInfo(minValue = 1, maxValue = 999) int id, String countryName, String place
             , String name, @ParameterInfo(minValue = 0, maxValue = 2999) int openingYear, int numberSeats)
             throws GameManagementException {
@@ -209,7 +209,8 @@ public class CommandProcessor {
      */
     @CommandInfo(command = "add-ioc-code (\\d{3});([a-z]{3});([^;\\n]+);(\\d{4})")
     public String addIocCode(
-            @ParameterInfo(minValue = 1, maxValue = 999) int iocId, String iocCode, String country, int year) {
+            @ParameterInfo(minValue = 1, maxValue = 999) int iocId, String iocCode, String country
+            , @ParameterInfo(minValue = 0, maxValue = 2999) int year) {
         gameManagement.checkLogin();
         gameManagement.addIocCode(new IocMember(iocId, iocCode, country, year));
         return "OK";

@@ -7,8 +7,6 @@ public class Athlete extends Person implements Comparable<Athlete> {
 
     //region verDef
     private int id;
-    private String name;
-    private String surname;
     private String country;
     private Map<String, List<String>> sportType = new TreeMap<>();
     private List<Competition> competitions = new ArrayList<>();
@@ -139,14 +137,15 @@ public class Athlete extends Person implements Comparable<Athlete> {
     /**
      * Returns a list of attached disciplines
      *
+     * @param key Key to get discipline from Map
      * @return List of disciplines
      */
-    public List<String> getDisciplines() {
+    public List<String> getDisciplines(String key) {
         List<String> disciplines = new ArrayList<>();
 
-        for (List<String> discs : sportType.values()) {
-            disciplines.addAll(discs);
-        }
+        if (sportType.containsKey(key))
+            disciplines.addAll(sportType.get(key));
+
 
         return disciplines;
     }
@@ -180,6 +179,7 @@ public class Athlete extends Person implements Comparable<Athlete> {
 
     /**
      * Returns unique Athlete Id
+     *
      * @return id of athlete
      */
     public int getId() {
@@ -227,7 +227,7 @@ public class Athlete extends Person implements Comparable<Athlete> {
      */
     @Override
     public String toString() {
-        return String.format("%04d %s %s %s", id, name, surname, getMedalCount());
+        return String.format("%04d %s %s %s", id, getName(), getSurname(), getMedalCount());
     }
     //endregion
 
