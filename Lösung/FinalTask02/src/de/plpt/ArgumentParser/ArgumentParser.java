@@ -115,7 +115,22 @@ public class ArgumentParser {
 
 
     }
+    //endregion
 
+    //region  processArrayParameter
+
+    /**
+     * Process array parameters of Method definition.
+     * Preturn strongly typed primitive wrapper Object array
+     *
+     * @param matcher    Matcher to match given regex groups
+     * @param i          Index of Matcher group
+     * @param type       Type of array
+     * @param annotation Parameter Annotation for additional array information
+     * @return strongly typed pared object array
+     * @throws ArgumentParserException    is thrown when there is an error parsing values
+     * @throws IntervalViolationException is thrown when a given number is not in defined interval
+     */
     private Object[] processArrayParameter(Matcher matcher, int i, Class<?> type, Annotation annotation)
             throws ArgumentParserException, IntervalViolationException {
         ParameterInfo parameterInfo = (ParameterInfo) annotation;
@@ -148,7 +163,22 @@ public class ArgumentParser {
         }
         return array;
     }
+    //endregion
 
+    //region processNormalParameter
+
+    /**
+     * Process normal primitive type parameters and cast them into it's required type
+     * It Parameter type as an ParameterInfo annotation, this annotation will be applied on the given value
+     *
+     * @param matcher   Matcher to match input string to regex groups
+     * @param index     GroupIndex of matcher
+     * @param type      mathod defined parameter type
+     * @param paramAnno Parameter Annotations
+     * @return strongly typed primitive type value with evaluated annotations
+     * @throws ArgumentParserException    is thrown when tere is an Error while converting value to it's primitive type
+     * @throws IntervalViolationException is thrown when a given number is not in the given interval
+     */
     private Object processNormalParameter(Matcher matcher, int index, Class<?> type, Annotation[] paramAnno)
             throws ArgumentParserException, IntervalViolationException {
         Object parsedValue;
